@@ -2,7 +2,7 @@ function run(){
     var input = document.getElementById("input").value
     document.getElementById("para").style.visibility="visible"
     var xhr = new XMLHttpRequest()
-    var api = "https://app.zipcodebase.com/api/v1/search?apikey=fb6dbf50-6aef-11ed-8277-1b1a362cf12b&codes="+input
+    var api = "https://app.zipcodebase.com/api/v1/search?apikey=YOUR+APIKEY&codes="+input
     xhr.open('GET',api)
     xhr.send()
     xhr.onload = function(){
