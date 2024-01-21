@@ -19,61 +19,102 @@ function run(){
 
                 var tr = document.createElement("tr")
                 var th = document.createElement("th")
-                th.innerText="Place: "+parsed.results[input][i].city
+                var place = parsed.results[input][i].city
+                th.innerText="Place: "+place
                 th.className = "bg-dark text-light"
                 tr.append(th)
                 table.append(tr)
                 
                 var tr = document.createElement("tr")
                 var td = document.createElement("td")
-                td.innerText="Pincode: "+parsed.results[input][i].postal_code
+                var Pincode = parsed.results[input][i].postal_code
+
+                td.innerText="Pincode: "+Pincode
                 tr.append(td)
                 table.append(tr)
     
                 var tr = document.createElement("tr")
                 var td = document.createElement("td")
-                td.innerText="District: "+parsed.results[input][i].province
+                var district = parsed.results[input][i].province
+                td.innerText="District: "+district
                 tr.append(td)
                 table.append(tr)
     
                 var tr = document.createElement("tr")
                 var td = document.createElement("td")
-                td.innerText="State: "+parsed.results[input][i].state
+                var state = parsed.results[input][i].state
+                td.innerText="State: "+state
                 tr.append(td)
                 table.append(tr)
                 
                 var tr = document.createElement("tr")
                 var td = document.createElement("td")
-                td.innerText="Country: "+parsed.results[input][i].country_code
+                var country = parsed.results[input][i].country_code
+                td.innerText="Country: "+ country
                 tr.append(td)
                 table.append(tr)
     
                 var tr = document.createElement("tr")
                 var td = document.createElement("td")
+                var a = document.createElement("button")
+
                 var latitude = parsed.results[input][i].latitude
                 var longitude = parsed.results[input][i].longitude
-                var a = document.createElement("a")
-                a.href = "https://www.latlong.net/c/?lat="+latitude+"&long="+longitude
-                a.target = '_blank'
+
+                // console.log(latitude, longitude, place)
+
+                a.areaName = place
+
+                a.long = longitude
+                a.lat = latitude
+
+                a.style.border="none"
+                
                 a.innerText = "Locate on Map "
+
+                a.addEventListener('click',function(event){
+                    event.preventDefault()
+                    handleclick(this)
+                })
+
                 // a.style.color="black"
-                a.style.textDecoration="none"
 
                 var icon = document.createElement("i")
-                icon.className = "fa-solid fa-map-location-dot fa-bounce"
+                icon.className = "fa-solid fa-location-dot fa-bounce"
+                icon.style.color = "red"
                 
                 a.append(icon)
                 td.append(a,icon)
                 tr.append(td)
                 table.append(tr)
+
                 table.className = "col-xs-11 col-sm-5 col-md-3 col-lg-3"
                 document.getElementById("div2").append(table)
 
             }
 
-           
         }
         document.getElementById("para").style.visibility="visible"
     }
     
+}
+
+function handleclick(place){
+    var lati = place.lat
+    var longi = place.long
+
+    document.getElementById("mapDiv").style.display = "block";
+
+    var mapContainer = document.getElementById('map');
+    var mapContainer = document.getElementById('map');
+    if (mapContainer._leaflet_id) {
+        mapContainer._leaflet_id = null;
+    }
+    var mymap = L.map('map').setView([lati, longi], 13);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mymap);
+  
+}
+
+function closebtn(){
+    document.getElementById("mapDiv").style.display = "none";
 }
